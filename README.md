@@ -2,6 +2,7 @@
 An LSTM RNN for restoring missing punctuation in text.
 
 Model is trained in two stages (second stage is optional though):
+
 1. First stage is trained on punctuation annotated text. Here the model learns to restore puncutation based on textual features only.
 2. Optional second stage can be trained on punctuation *and* pause annotated text. In this stage the model learns to combine pause durations with textual features and adapts to the target domain. If pauses are omitted then only adaptation is performed. Second stage with pause durations can be used for example for restoring punctuation in automatic speech recognition system output.
 
