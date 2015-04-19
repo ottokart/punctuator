@@ -4,6 +4,15 @@ import numpy as np
 import utils
 import adaptation_models4 as models
 
+"""
+Wrapper to use the model for punctuation restoration.
+Inputs:
+    Model path as command line argument;
+    Unpunctuated text with pause duration tokens to stdin
+Outputs:
+    Text with restored punctuation to stdout
+"""
+
 def is_pause(token):
     return token.startswith("<sil=")
 
@@ -79,10 +88,10 @@ def write_punctuations(net, punctuation_reverse_map, document):
 
 if __name__ == "__main__":
     
-    model_name = "../out/model_tanel4"
-    model = np.load(model_name)
-    net = getattr(models, model["type"])()
-    net.load(model)
+    assert len(sys.argv) > 1, "Give model path as first argument"
+
+    model_path = sys.argv[1]
+    net = utils.load_model(model_path)
     net.batch_size = 1
 
     punctuation_reverse_map = utils.get_reverse_map(net.out_vocabulary)

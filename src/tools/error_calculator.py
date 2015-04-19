@@ -1,11 +1,13 @@
 # coding: utf-8
 
+"""
+Computes and prints the overall classification error and precision, recall, F-score over punctuations.
+"""
+
 from numpy import nan
 
 PUNCTUATION = {" ", ".PERIOD", ",COMMA"}
 SHOULD_NOT_BE_IN_FILES = {"?QUESTIONMARK", ";SEMICOLON", "!EXCLAMATIONMARK", ":COLON"}
-
-TEST = False
 
 def compute_error(target_paths, predicted_paths):
     counter = 0
@@ -28,10 +30,6 @@ def compute_error(target_paths, predicted_paths):
             target_stream = target.read().split() + ["<END>"]
             predicted_stream = predicted.read().split() + ["<END>"]
             
-            if TEST:
-                print "TARGET: "+" ".join(target_stream)
-                print "PREDICTION: "+" ".join(predicted_stream)
-
             while True:
 
                 assert target_stream[t_i] not in SHOULD_NOT_BE_IN_FILES and predicted_stream[p_i] not in SHOULD_NOT_BE_IN_FILES
@@ -48,10 +46,6 @@ def compute_error(target_paths, predicted_paths):
                     p_i += 1
                 else:
                     predicted_punctuation = " "
-
-                if TEST:
-                    print "T: ", target_punctuation, target_stream[t_i]
-                    print "P: ", predicted_punctuation, predicted_stream[p_i]
 
                 correct = target_punctuation == predicted_punctuation
 
@@ -84,62 +78,6 @@ def compute_error(target_paths, predicted_paths):
         precision = (true_positives.get(p,0.) / (true_positives.get(p,0.) + false_positives[p])) if p in false_positives else nan
         recall = (true_positives.get(p,0.) / (true_positives.get(p,0.) + false_negatives[p])) if p in false_negatives else nan
         f_score = (2. * precision * recall / (precision + recall)) if (precision + recall) > 0 else nan        
-        #print p
-        print round(precision,2), "& "
-        print round(recall,2), "& "
-        print round(f_score,2), "& "
-        #print "{:<16} {:<9} {:<9} {:<9}".format(p, round(precision,2), round(recall,2), round(f_score,2))
+        print "{:<16} {:<9} {:<9} {:<9}".format(p, round(precision,2), round(recall,2), round(f_score,2))
     print "-"*46
     print "Accuracy: %.2f%%" % (float(total_correct) / float(counter-1) * 100.0)
-
-if TEST:
-    error = compute_error(["test_target.txt"], ["test_prediction.txt"])
-    assert error == 50.0, "Expected 50.0, but got %.2f" % error
-
-print "="*60
-print "ASR test"
-print "="*60
-
-print "\nno punctuation baseline: "
-compute_error(
-    ["../test_data/pauses.ASR.test.punct"],
-    ["../test_data/pauses.ASR.test.nopunct"])
-
-print "\ninterpolated 4-gram: "
-compute_error(
-    ["../test_data/pauses.ASR.test.punct"],
-    ["../test_data/pauses.ASR.test.ngram.punct"])
-
-print "\nTP-LSTM-A: "
-compute_error(
-    ["../test_data/pauses.ASR.test.punct"],
-    ["../test_data/pauses.ASR.test.TP-LSTM-A.punct"])
-
-print "\nTP-LSTM: "
-compute_error(
-    ["../test_data/pauses.ASR.test.punct"],
-    ["../test_data/pauses.ASR.test.TP-LSTM.punct"])
-
-print "="*60
-print "REF test"
-print "="*60
-
-print "\nno punctuation baseline: "
-compute_error(
-    ["../test_data/pauses.test.punct"],
-    ["../test_data/pauses.test.nopunct"])
-
-print "\ninterpolated 4-gram: "
-compute_error(
-    ["../test_data/pauses.test.punct"],
-    ["../test_data/pauses.test.ngram.punct"])
-
-print "\nTP-LSTM-A: "
-compute_error(
-    ["../test_data/pauses.test.punct"],
-    ["../test_data/pauses.test.TP-LSTM-A.punct"])
-
-print "\nTP-LSTM: "
-compute_error(
-    ["../test_data/pauses.test.punct"],
-    ["../test_data/pauses.test.TP-LSTM.punct"])

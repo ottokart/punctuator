@@ -2,16 +2,10 @@
 
 import utils
 import sys
-import cPickle
 import numpy as np
-
-WRITE_PROBS = False
-
 
 def write_punctuations(net, unpunctuated_text, output_file_path, punctuation_reverse_map, write_readable_text):
     stream = unpunctuated_text.split()# + ["<END>"]
-    if WRITE_PROBS:
-        probs = []
 
     word = None
     pause = 0.
@@ -27,9 +21,6 @@ def write_punctuations(net, unpunctuated_text, output_file_path, punctuation_rev
                 word_index = utils.input_word_index(net.in_vocabulary, word)
                 punctuation_index = net.predict_punctuation([word_index], np.array([previous_pause]))[0]
 
-                if WRITE_PROBS:
-                    probs.append(net.y[0])
-                
                 punctuation = punctuation_reverse_map[punctuation_index]
 
                 if punctuation == " ":
@@ -43,9 +34,6 @@ def write_punctuations(net, unpunctuated_text, output_file_path, punctuation_rev
             else:
                 word = token
     
-    if WRITE_PROBS:
-        cPickle.dump(np.array(probs), file(output_file_path + ".punct_probs", 'wb'))
-
 if __name__ == "__main__":
     
     if len(sys.argv) > 3:

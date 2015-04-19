@@ -1,12 +1,5 @@
 # coding: utf-8
 
-def shuffle_arrays(*arrays):
-    import numpy as np
-    rng_state = np.random.get_state()
-    for array in arrays:
-        np.random.set_state(rng_state)
-        np.random.shuffle(array)
-
 def get_reverse_map(dictionary):
 	return {v:k for k,v in dictionary.iteritems()}
 
@@ -29,17 +22,12 @@ def load_vocabulary(file_path):
     return vocabulary
     
 def load_model(file_path):
-    #import models
-    import adaptation_models4 as models
+    import models
     import numpy as np
     
     model = np.load(file_path)
     net = getattr(models, model["type"])()
     
-    TEMPORARY_FIX = True
-    if TEMPORARY_FIX:
-        model["use_pauses"] = False
-
     net.load(model)
     
     return net

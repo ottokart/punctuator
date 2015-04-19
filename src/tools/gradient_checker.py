@@ -2,9 +2,9 @@
 
 import numpy as np
 import copy
-import adaptation_models5 as models
+import models
 
-VOCAB = {"tere": 0, "maailm": 1, "mis": 2, "teed": 3, "<unk>": 4, "<END>": 5}
+VOCAB = {"tere": 0, "maailm": 1, "<unk>": 3, "<END>": 4}
 PUNCT = {" ": 0, ".PERIOD": 1, ",COMMA": 2}
 
 INPUT_SIZE = 5
@@ -25,20 +25,10 @@ def predict(net, inputs, outputs, pauses, with_backpropagation=False):
 
     return np.sum(neg_log_probs) # we calculate derivatives wrt to the error at last time step
 
-def check(net_type):
+def check(net):
 
-    print "\nChecking: %s" % net_type.__name__
+    print "\nChecking: %s" % net.__class__.__name__
     print "="*60
-
-    net = net_type()
-    net.initialize(hidden_size=3,
-                   projection_size=4,
-                   in_vocabulary=VOCAB,
-                   out_vocabulary=PUNCT,
-                   batch_size=BATCH_SIZE,
-                   hidden_activation="Tanh",
-                   bptt_steps=BPTT_STEPS,
-                   use_pauses=True)
 
     net_copy = copy.deepcopy(net)
     predict(net_copy, inputs, outputs, pauses, with_backpropagation=True)
@@ -110,12 +100,33 @@ def check(net_type):
         print "\n### OK ###\n"
 
 
-np.random.seed(1)
+if __name__ == "__main__":
 
-tiny = 1e-5 # tiny  constant
-inputs = np.random.randint(len(VOCAB), size=(INPUT_SIZE, BATCH_SIZE))
-outputs = np.random.randint(len(PUNCT), size=(INPUT_SIZE, BATCH_SIZE))
-pauses = np.random.uniform(0, 1, size=(INPUT_SIZE, BATCH_SIZE))
+    np.random.seed(1)
 
-#check(models.RNN)
-check(models.LSTM)
+    tiny = 1e-5 # tiny  constant
+    inputs = np.random.randint(len(VOCAB), size=(INPUT_SIZE, BATCH_SIZE))
+    outputs = np.random.randint(len(PUNCT), size=(INPUT_SIZE, BATCH_SIZE))
+    pauses = np.random.uniform(0, 1, size=(INPUT_SIZE, BATCH_SIZE))
+
+
+    t_lstm = models.T_LSTM()
+    t_lstm.initialize(hidden_size=3,
+                      projection_size=4,
+                      in_vocabulary=VOCAB,
+                      out_vocabulary=PUNCT,
+                      batch_size=BATCH_SIZE,
+                      hidden_activation="Tanh",
+                      bptt_steps=BPTT_STEPS,
+                      use_pauses=True)
+    check(t_lstm)
+
+    ta_lstm = models.TA_LSTM()
+    ta_lstm.initialize(hidden_size=3,
+                       t_lstm=t_lstm,
+                       out_vocabulary=PUNCT,
+                       batch_size=BATCH_SIZE,
+                       hidden_activation="Tanh",
+                       bptt_steps=BPTT_STEPS,
+                       use_pauses=True)
+    check(ta_lstm)
