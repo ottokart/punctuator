@@ -1,6 +1,10 @@
 # Punctuator
 An LSTM RNN for restoring missing punctuation in text.
 
+Model is trained in two stages (second stage is optional though):
+1. First stage is trained on punctuation annotated text. Here the model learns to restore puncutation based on textual features only.
+2. Optional second stage can be trained on punctuation *and* pause annotated text. In this stage the model learns to combine pause durations with textual features and adapts to the target domain. If pauses are omitted then only adaptation is performed. Second stage with pause durations can be used for example for restoring punctuation in automatic speech recognition system output.
+
 # Requirements
 * Python (tested with v.2.7.5)
 * Numpy (tested with v.1.8.0)
@@ -31,9 +35,9 @@ Location of the vocabulary file is specified in VOCABULARY_FILE.
 
 The locations of the data files can be configured in PHASE1['TRAIN_DATA'], PHASE1['DEV_DATA'], PHASE2['TRAIN_DATA'] and PHASE2['DEV_DATA'].
 
-Changing some configuration options (batch size, file locations, pause usage, punctuations or vocabulary) may require deleting the *data* directory so the data files will be reconverted during the next run.
+Changing some configuration options (batch size, data files, pause usage, punctuations or vocabulary) may require deleting the *data* directory so the data files will be reconverted during the next run.
 
 # Usage
 
-Run `python main.py <model_name>`
+Run `python main.py <model_name>`.
 Model name is optional. Default is 'model'.
