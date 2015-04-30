@@ -41,4 +41,7 @@ Changing some configuration options (batch size, data files, pause usage, punctu
 # Usage
 
 Run `python main.py <model_name>`.
+
 Model name is optional. Default is 'model'.
+
+A small example dataset is also included. 
