@@ -45,3 +45,5 @@ Run `python main.py <model_name>`.
 Model name is optional. Default is 'model'.
 
 A small example dataset is also included. 
+
+**Tools might not work properly yet!**
