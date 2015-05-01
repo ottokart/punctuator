@@ -250,6 +250,7 @@ class T_LSTM(Model):
             m = m_tm1
 
     def update(self, _, output_word_index, learning_rate):
+        """Uses AdaGrad: Duchi, John, Elad Hazan, and Yoram Singer. "Adaptive subgradient methods for online learning and stochastic optimization." The Journal of Machine Learning Research 12 (2011): 2121-2159."""
         assert self.initialized, "initialize or load before using"
 
         self._backpropagate(output_word_index)
@@ -483,6 +484,7 @@ class TA_LSTM(Model):
 
 
     def update(self, _, output_word_index, learning_rate):
+        """Uses AdaGrad: Duchi, John, Elad Hazan, and Yoram Singer. "Adaptive subgradient methods for online learning and stochastic optimization." The Journal of Machine Learning Research 12 (2011): 2121-2159."""
         assert self.initialized, "initialize or load before using"
 
         self._backpropagate(output_word_index)
@@ -526,10 +528,12 @@ class TA_LSTM(Model):
             if not final:  
                 model[p+"_hg"] = getattr(self, p+"_hg")
 
-        model["t_lstm"] = self.t_lstm.save(file_name + "_t_lstm", True)
+        t_lstm_file_name = file_name + "_t_lstm"
+        self.t_lstm.save(t_lstm_file_name, True)
+        model["t_lstm_file_name"] = t_lstm_file_name
 
         cPickle.dump(model, file(file_name, 'wb'))
 
-    def load(self, model): 
+    def load(self, model):
+        self.t_lstm = load_model(model["t_lstm_file_name"])
         super(TA_LSTM, self).load(model)       
-        self.t_lstm = load_model(model["t_lstm"])

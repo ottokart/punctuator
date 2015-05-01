@@ -6,7 +6,7 @@ PUNCTUATIONS = {" ": 0, ".PERIOD": 1, ",COMMA": 2}
 VOCABULARY_FILE = "../raw_data/vocab"
 
 RANDOM_SEED = 1
-SHOW_WPS = True # Show training progress in % and speed in words per second (should be turned of when output is logged into a files)
+SHOW_WPS = True # Show training progress in % and speed in words per second (should be turned of when output is logged into a file)
 BATCH_SIZE = 100
 
 PHASE1 = {
