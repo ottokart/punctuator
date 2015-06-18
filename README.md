@@ -47,3 +47,16 @@ Model name is optional. Default is 'model'.
 A small example dataset is also included. 
 
 **Tools might not work properly yet!**
+
+
+# Citing
+
+The software is described in this paper:
+
+    @inproceedings{tilk2015,
+      author    = {Ottokar Tilk and Tanel Alum{\"a}e},
+      title     = {{LSTM} for Punctuation Restoration in Speech Transcripts},
+      booktitle = {Interspeech 2015},
+      year      = {2015},
+      address   = {Dresden, Germany}
+    }
