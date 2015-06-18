@@ -51,7 +51,7 @@ A small example dataset is also included.
 
 # Citing
 
-The software is described in this paper:
+The software is described in [this](https://phon.ioc.ee/dokuwiki/lib/exe/fetch.php?media=people:tanel:interspeech2015-paper-punct.pdf) paper:
 
     @inproceedings{tilk2015,
       author    = {Ottokar Tilk and Tanel Alum{\"a}e},
