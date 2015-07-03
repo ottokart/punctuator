@@ -536,4 +536,5 @@ class TA_LSTM(Model):
 
     def load(self, model):
         self.t_lstm = load_model(model["t_lstm_file_name"])
+        self.in_vocabulary = self.t_lstm.in_vocabulary
         super(TA_LSTM, self).load(model)       
