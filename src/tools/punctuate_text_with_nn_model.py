@@ -2,7 +2,6 @@
 
 import sys, os
 sys.path.append(os.path.pardir)
-print sys.path[0]
 
 from src import utils
 import numpy as np
@@ -79,5 +78,6 @@ if __name__ == "__main__":
         write_punctuations(net, text_has_pause_duration_tags, unpunctuated_text, output_file_path, punctuation_reverse_map, write_readable_text)
         
     else:
-        print "Usage: python punctuate_text_with_nn_model.py <model path> <1/0 write readable format> <1/0 text has pause duration tags> <output file or - for stdout> <unpunctuated text>\n" + \
-              "   or: cat <unpunctuated text> | python punctuate_text_with_nn_model.py <model path> <1/0 write readable format>  <1/0 text has pause duration tags> <output file or - for stdout>"
+        print "Execute in src directory." + \
+              "Usage: python tools/punctuate_text_with_nn_model.py <model path> <1/0 write readable format> <1/0 text has pause duration tags> <output file path or - for stdout> <unpunctuated text path>\n" + \
+              "   or: cat <unpunctuated text path> | python tools/punctuate_text_with_nn_model.py <model path> <1/0 write readable format>  <1/0 text has pause duration tags> <output file path or - for stdout>"
