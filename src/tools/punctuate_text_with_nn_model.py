@@ -12,7 +12,7 @@ def write_punctuations(net, text_has_pause_duration_tags, unpunctuated_text, out
     word = None
     pause = 0.
 
-    with open(output_file_path, 'w') as output_file:
+    with (open(output_file_path, 'w') if (output_file_path != "-") else sys.stdout) as output_file:
 
         if text_has_pause_duration_tags:
             for token in stream:
@@ -66,8 +66,6 @@ if __name__ == "__main__":
         text_has_pause_duration_tags = bool(int(sys.argv[3]))
 
         output_file_path = sys.argv[4]
-        if output_file_path == "-":
-            output_file_path = sys.stdout
 
         if len(sys.argv) > 5:
             with open(sys.argv[5], 'r') as unpunctuated_file:
