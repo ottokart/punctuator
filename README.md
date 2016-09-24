@@ -1,5 +1,6 @@
 # Punctuator
 An LSTM RNN for restoring missing punctuation in text.
+There's now a bidirectional model also available: https://github.com/ottokart/punctuator2
 
 Model is trained in two stages (second stage is optional though):
 
